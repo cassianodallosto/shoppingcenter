@@ -1,14 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <stdbool.h>
+/*cassiano dallosto*/#include <stdio.h>//Cassiano dallosto 2410100707
+/*cassiano dallosto*/#include <stdlib.h>//Cassiano dallosto 2410100707
+/*cassiano dallosto*/#include <time.h>//Cassiano dallosto 2410100707
+/*cassiano dallosto*/#include <stdbool.h>//Cassiano dallosto 2410100707
 
 typedef struct cliente{ 
     int id; 
     int produtos;
     int tempo;
 }cliente;
-//Cassiano dallosto 2410100707
+
 typedef struct nodo {//estrutura de nó para a fila
     cliente *c;
     struct nodo *prox;
@@ -39,7 +39,7 @@ fila* criaFila(){
 void insereFila(fila* f, cliente* c){
     nodo *novo = (nodo*)malloc(sizeof(nodo));
     novo->c = c;
-    novo->prox = NULL;
+    novo->prox = NULL;  
 
     if(f->fim == NULL){
         f->inicio = novo;
@@ -89,6 +89,17 @@ int contadorFila(fila* f){
     return i;
 }
 
+retornaMenorCaixa(loja* l){
+    int menor = 0;
+    for(int i = 1; i < 5; i++){
+        if(contadorFila(l->caixas[i].fila) < contadorFila(l->caixas[menor].fila)){
+            menor = i;
+        }
+}
+    return menor;
+
+}
+
 cliente* criarCliente(int id){
     cliente *c = (cliente*)malloc(sizeof(cliente));
     c->id = id;
@@ -102,11 +113,15 @@ int defineTempo(cliente* c){
 }
 
 
-void chegada(loja* l){
+void chegada(loja* l, int *idContador){
     if (verificaChegou()){
-        cliente *c = criarCliente(rand()%9999);
+        cliente *c = criarCliente(*idContador);
+        (*idContador)++;
         printf("cliente %d chegou com %d produtos\n", c->id, c->produtos);
         defineTempo(c);
+        int caixaMenor = retornaMenorCaixa(l);
+        insereFila(l->caixas[caixaMenor].fila, c);
+        printf("cliente %d na fila %d\n", c->id, caixaMenor);
     }
 
 }
