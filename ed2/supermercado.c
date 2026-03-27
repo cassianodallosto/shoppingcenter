@@ -66,7 +66,8 @@ void removeFila(fila* f){
         return;
     }
     nodo *aux = f->inicio;
-    f->inicio = f->inicio->prox;    
+    f->inicio = f->inicio->prox;
+      if(f->inicio == NULL) f->fim = NULL;    
     free(aux);
 }
 
@@ -104,7 +105,23 @@ int contadorFila(fila* f){ //conta a quantidade de clientes na fila e retorna um
 int retornaMenorCaixa(loja* l){ //indica a caixa com a menor fila da loja no parametro
     int menor = 0;
     for(int i = 1; i < 5; i++){
-        if(contadorFila(l->caixas[i].fila) < contadorFila(l->caixas[menor].fila)){
+        int totalI;
+        int totalMenor;
+
+        
+        if(l->caixas[i].clienteAtual != NULL){
+            totalI = contadorFila(l->caixas[i].fila) + 1;
+        } else {
+            totalI = contadorFila(l->caixas[i].fila);
+        }
+
+        if(l->caixas[menor].clienteAtual != NULL){
+            totalMenor = contadorFila(l->caixas[menor].fila) + 1;
+        } else {
+            totalMenor = contadorFila(l->caixas[menor].fila);
+        }
+
+        if(totalI < totalMenor){
             menor = i;
         }
 }
